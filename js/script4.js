@@ -3,14 +3,27 @@ const adicionarAluno = document.querySelector("#adicionar-aluno");
 adicionarAluno.addEventListener('click', function (event) {
     event.preventDefault();
 
-    const formularioAluno = document.querySelector("#form-adiciona");
+    function obtemAluno(){
+        return obterDadosDoFormulario(document.querySelector("#form-adiciona")); 
+    }
+    
+    function notasSaoValidas(aluno) {
+        if (!(aluno.notaUmAluno >= 0 && aluno.notaUmAluno <= 10)) {
+            document.querySelector("#mesagem-erro").innerHTML = "A Nota 1 está incorreta.";
 
-    let aluno = obterDadosDoFormulario(formularioAluno);
+        return false;
+        }
+    if (!(aluno.notaDoisAluno >= 0 && aluno.notaDoisAluno <= 10)) {
+        document.querySelector("#mesagem-erro").innerHTML = "A Nota 2 está incorreta.";
 
-    // antes de criar a linha, verifico se o valor está correto
-    if (!validaNota(aluno)) {
-        const erro = document.querySelector("#mensagem-erro");
-        return erro.innerHTML = "A Nota 1 está incorreta.";
+    return false;
+    }
+}
+
+    function mensagemErro() {
+        setTimeout(function(){
+            document.querySelector("#mensagemErro").innerHTML = "";
+        },3000);
     }
 
     // criando a linha
@@ -24,7 +37,6 @@ adicionarAluno.addEventListener('click', function (event) {
     nomeAlunoTd.textContent = aluno.nomeAluno;
     notaUmAlunoTd.textContent = aluno.notaUmAluno;
     notaDoisAlunoTd.textContent = aluno.notaDoisAluno;
-    // mediaAlunoTd.textContent = calculaMedia(notaUmAluno, notaDoisAluno);
     mediaAlunoTd.textContent = aluno.media;
 
     alunoTr.appendChild(nomeAlunoTd);
